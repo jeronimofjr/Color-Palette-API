@@ -26,7 +26,20 @@ def image_to_pixels(image: np.ndarray) -> np.ndarray:
     Transforma uma imagem (altura x largura x 3) em uma lista de
     pixels no formato (n_pixels, 3), convertendo de BGR para RGB.
     """
+
     image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     pixels = image_rgb.reshape((-1, 3))
     pixels = np.float32(pixels)
     return pixels
+
+def rgb_to_hex(rgb: np.ndarray) -> str:
+    """
+    Converte um array [R, G, B] (0-255) para uma string hexadecimal,
+    ex: [30, 144, 255] -> "#1E90FF"
+    """
+    
+    r, g, b = rgb
+    r = max(0, min(255, r))
+    g = max(0, min(255, g))
+    b = max(0, min(255, b))
+    return f"#{r:02X}{g:02X}{b:02X}"
