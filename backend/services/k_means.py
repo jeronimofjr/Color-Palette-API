@@ -2,7 +2,7 @@ import numpy as np
 from typing import List, Dict
 from sklearn.cluster import KMeans
 
-from utils.image_utils import rgb_to_hex
+from backend.utils.image_utils import rgb_to_hex
 
 def extract_colors(
     pixels: np.ndarray,
@@ -37,7 +37,7 @@ def extract_colors(
 
     colors = []
     for label in labels:
-        rgb = np.int16(centers[label])
+        rgb = np.int16(centers[label]).tolist()
         
 
         colors.append({
