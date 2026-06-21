@@ -1,3 +1,7 @@
+"""
+Processa uma imagem para extrair sua paleta de cores e gera uma nova versão da imagem com a paleta anexada.
+Retorna a lista de cores em formato RGB/Hex e a imagem final codificada em Base64.
+"""
 from fastapi import APIRouter, File, UploadFile, Form, HTTPException
 from fastapi.responses import JSONResponse
 

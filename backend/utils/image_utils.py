@@ -1,3 +1,7 @@
+"""
+Utilitários para manipulação de imagens.
+"""
+
 import numpy as np
 import cv2
 

@@ -1,3 +1,7 @@
+"""
+Serviço responsável por extrair as cores da imagem a partir do algoritmo K-Means.
+"""
+
 import numpy as np
 from typing import List, Dict
 from sklearn.cluster import KMeans
