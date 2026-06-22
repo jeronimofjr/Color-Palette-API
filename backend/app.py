@@ -12,6 +12,10 @@ from fastapi.staticfiles import StaticFiles
 
 
 from backend.routes.image_routes import router
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 app = FastAPI(
     title="API de Extração de Paleta de Cores",
@@ -23,12 +27,11 @@ app = FastAPI(
     version="1.0.0",
 )
 
+origins = os.getenv("ALLOWED_ORIGINS", "").split(",")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:8000",
-        "http://127.0.0.1:8000",
-    ],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
