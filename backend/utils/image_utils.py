@@ -14,6 +14,7 @@ def bgr_to_rgb(image: np.ndarray) -> np.ndarray:
     image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     return image_rgb
 
+
 def resize_image(image: np.ndarray, max_dimension: int = 400) -> np.ndarray:
     """
     Redimensiona a imagem mantendo a proporção, de forma que a maior
@@ -34,6 +35,7 @@ def resize_image(image: np.ndarray, max_dimension: int = 400) -> np.ndarray:
     resized = cv2.resize(image, (new_width, new_height), interpolation=cv2.INTER_AREA)
     return resized
 
+
 def image_to_pixels(image: np.ndarray) -> np.ndarray:
     """
     Transforma uma imagem (altura x largura x 3) em uma lista de
@@ -44,6 +46,7 @@ def image_to_pixels(image: np.ndarray) -> np.ndarray:
     pixels = image_rgb.reshape((-1, 3))
     pixels = np.float32(pixels)
     return pixels
+
 
 def rgb_to_hex(rgb: np.ndarray) -> str:
     """
@@ -57,18 +60,22 @@ def rgb_to_hex(rgb: np.ndarray) -> str:
     b = max(0, min(255, b))
     return f"#{r:02X}{g:02X}{b:02X}"
 
+
 def bytes_to_image(file_bytes: bytes) -> np.ndarray:
     """
     Converte bytes recebidos via upload em uma imagem OpenCV (BGR).
     """
-    
+
     np_array = np.frombuffer(file_bytes, np.uint8)
     image = cv2.imdecode(np_array, cv2.IMREAD_COLOR)
 
     if image is None:
-        raise ValueError("Não foi possível decodificar a imagem. Verifique o formato do arquivo.")
-    
+        raise ValueError(
+            "Não foi possível decodificar a imagem. Verifique o formato do arquivo."
+        )
+
     return image
+
 
 def image_to_png_bytes(image: np.ndarray) -> bytes:
     """

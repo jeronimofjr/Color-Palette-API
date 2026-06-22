@@ -8,11 +8,12 @@ from backend.utils.image_utils import image_to_pixels, resize_image, image_to_pn
 import numpy as np
 from typing import List, Dict
 
+
 def process_palette(image: np.ndarray, n_colors: int) -> tuple[List[Dict], bytes]:
     """
     Organiza as chamadas do processamento da imagem.
     """
-    
+
     small_image = resize_image(image)
     pixels = image_to_pixels(small_image)
     color_palette = extract_colors(pixels, n_colors)

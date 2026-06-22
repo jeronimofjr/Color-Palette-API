@@ -8,6 +8,7 @@ from sklearn.cluster import KMeans
 
 from backend.utils.image_utils import rgb_to_hex
 
+
 def extract_colors(
     pixels: np.ndarray,
     n_colors: int = 10,
@@ -26,7 +27,6 @@ def extract_colors(
     """
     n_clusters = min(n_colors, len(pixels))
 
-   
     model = KMeans(
         n_clusters=n_clusters,
         random_state=random_state,
@@ -42,11 +42,12 @@ def extract_colors(
     colors = []
     for label in labels:
         rgb = np.int16(centers[label]).tolist()
-        
 
-        colors.append({
-            "rgb": rgb,
-            "hex": rgb_to_hex(rgb),
-        })
+        colors.append(
+            {
+                "rgb": rgb,
+                "hex": rgb_to_hex(rgb),
+            }
+        )
 
     return colors

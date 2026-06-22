@@ -21,8 +21,12 @@ def append_palette_to_image(
     image_height, image_width = image.shape[:2]
 
     colors = []
-    for  palette in color_palette:
-        colors.append(np.full((image_height // 10, image_width // n_color, 3), palette["rgb"][::-1]))
+    for palette in color_palette:
+        colors.append(
+            np.full(
+                (image_height // 10, image_width // n_color, 3), palette["rgb"][::-1]
+            )
+        )
 
     palette = np.concatenate(colors, axis=1)
     palette_height, palette_width = palette.shape[:2]
