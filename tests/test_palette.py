@@ -28,7 +28,7 @@ def test_append_palette_to_image_sucesso():
         {"rgb": [0, 255, 0], "hex": "#00FF00"}
     ]
     
-    resultado = append_palette_to_image(imagem_original, paleta_ficticia, n_color=2)
+    resultado = append_palette_to_image(imagem_original, paleta_ficticia, n_colors=2)
 
     assert resultado.shape == (110, 100, 3)
     assert isinstance(resultado, np.ndarray)
