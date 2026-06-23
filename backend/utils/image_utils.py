@@ -48,7 +48,7 @@ def image_to_pixels(image: np.ndarray) -> np.ndarray:
     return pixels
 
 
-def rgb_to_hex(rgb: np.ndarray) -> str:
+def rgb_to_hex(rgb: list) -> str:
     """
     Converte um array [R, G, B] (0-255) para uma string hexadecimal,
     ex: [30, 144, 255] -> "#1E90FF"

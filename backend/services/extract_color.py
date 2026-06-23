@@ -36,7 +36,6 @@ def extract_colors(
     labels = model.fit_predict(pixels)
     centers = model.cluster_centers_
 
-    total_pixels = len(labels)
     labels = np.unique(labels)
 
     colors = []
