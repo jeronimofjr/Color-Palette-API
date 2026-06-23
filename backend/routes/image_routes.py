@@ -3,7 +3,7 @@ Processa uma imagem para extrair sua paleta de cores e gera uma nova versão da 
 Retorna a lista de cores em formato RGB/Hex e a imagem final codificada em Base64.
 """
 
-from fastapi import APIRouter, File, UploadFile, Form, HTTPException
+from fastapi import APIRouter, File, UploadFile, Form, status
 from fastapi.responses import JSONResponse
 
 from backend.utils.image_utils import bytes_to_image
@@ -23,31 +23,55 @@ async def extract_palette(
 ):
 
     if file.content_type not in ALLOWED_CONTENT_TYPES:
-        raise HTTPException(
-            status_code=400,
-            detail=(
-                f"Formato de arquivo não suportado: '{file.content_type}'. "
-                "Envie uma imagem JPEG ou PNG."
-            ),
+        return JSONResponse(
+            status_code=status.HTTP_415_UNSUPPORTED_MEDIA_TYPE,
+            content={
+                "code": "UNSUPPORTED_IMAGE_TYPE",
+                "detail": "Formato não suportado. Envie apenas imagens PNG ou JPEG.",
+            },
         )
 
     file_bytes = await file.read()
 
     if not file_bytes:
-        raise HTTPException(status_code=400, detail="Arquivo de imagem vazio")
+        return JSONResponse(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            content={
+                "code": "EMPTY_FILE",
+                "detail": "Arquivo de imagem vazio.",
+            },
+        )
 
     try:
-
         image = bytes_to_image(file_bytes)
-    except ValueError as err:
-        raise HTTPException(status_code=400, detail=str(err))
+        color_palette, png_bytes = process_palette(image, n_colors)
+        encoded_image = base64.b64encode(png_bytes).decode("utf-8")
 
-    color_palette, png_bytes = process_palette(image, n_colors)
-    encoded_image = base64.b64encode(png_bytes).decode("utf-8")
+    except ValueError:
+        return JSONResponse(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            content={
+                "code": "INVALID_IMAGE",
+                "detail": (
+                    "Não foi possível ler a imagem. "
+                    "O arquivo pode estar corrompido."
+                ),
+            },
+        )
+
+    except Exception:
+        return JSONResponse(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            content={
+                "code": "PALETTE_PROCESSING_ERROR",
+                "detail": "Ocorreu um erro interno ao processar a imagem.",
+            },
+        )
 
     return JSONResponse(
+        status_code=status.HTTP_200_OK,
         content={
             "colors": color_palette,
             "image_base64": f"data:image/png;base64,{encoded_image}",
-        }
+        },
     )

@@ -88,6 +88,10 @@ form.addEventListener("submit", async (event) => {
     renderResult(data);
     setStatus("");
   } catch (error) {
+    if (error instanceof TypeError) {
+      setStatus("Problema de conexão. Verifique sua internet e tente novamente.", true);
+      return;
+  }
     setStatus(error.message || "Erro inesperado ao processar a imagem.", true);
   } finally {
     submitBtn.disabled = false;
