@@ -11,7 +11,7 @@ import numpy as np
 def append_palette_to_image(
     image: np.ndarray,
     color_palette: List[Dict],
-    n_color: int,
+    n_colors: int,
 ) -> np.ndarray:
     """
     Anexa a paleta de cores na parte inferior da imagem original,
@@ -24,7 +24,7 @@ def append_palette_to_image(
     for palette in color_palette:
         colors.append(
             np.full(
-                (image_height // 10, image_width // n_color, 3), palette["rgb"][::-1]
+                (image_height // 10, image_width // n_colors, 3), palette["rgb"][::-1]
             )
         )
 
