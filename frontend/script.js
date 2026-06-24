@@ -30,7 +30,10 @@ function setFile(file) {
   fileNameEl.textContent = file.name;
   submitBtn.disabled = false;
   hideResult();
-  setStatus("");
+  setStatus("Upload da imagem concluída com sucesso.");
+  setTimeout(() => {
+          setStatus("");
+  }, 1500);
 }
 
 
@@ -114,11 +117,16 @@ function setStatus(message, isError = false) {
 function hideResult() {
   resultEl.hidden = true;
   swatchStrip.innerHTML = "";
+  resultImage.src = "";
+  downloadLink.removeAttribute("href");
+  downloadLink.setAttribute("aria-disabled", "true");
 }
 
 function renderResult(data) {
   resultImage.src = data.image_base64;
   downloadLink.href = data.image_base64;
+  downloadLink.setAttribute("aria-disabled", "false");
+
 
   swatchStrip.innerHTML = "";
 
